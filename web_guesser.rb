@@ -1,11 +1,17 @@
 require 'sinatra'
 require 'sinatra/reloader'
+require 'pry'
 
 SECRET_NUMBER = rand(100)
 
 get '/' do
   guess = params["guess"].to_i
-  message = check_guess(guess)
+  if params["cheat"] == "true"
+    @color = "blue"
+    message = "The number is #{SECRET_NUMBER}. Cheater."
+  else
+    message = check_guess(guess)
+  end
   erb :index, :locals => {:color => @color, :message => message}
 end
 
